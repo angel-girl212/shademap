@@ -2,4 +2,7 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
  <div id="map"></div>
+
 #map { height: 180px; }
+
+var map = L.map('map').setView([51.505, -0.09], 13);
