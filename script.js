@@ -65,7 +65,7 @@ function onMapClick(e) {
     if (answer) {
       // send to webapp
     else {
-      window.close()
+     // window.close()
 }
 
 map.on('click', onMapClick);
