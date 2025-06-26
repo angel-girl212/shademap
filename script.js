@@ -70,7 +70,7 @@ function ask() {
     if (answer) {
       // send to webapp
     } else {
-      window.close();
+      // close window
     }
 }
 
