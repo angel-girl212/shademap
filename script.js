@@ -69,12 +69,12 @@ function onMapClick(e) {
   popup
     .setLatLng(e.latlng)
     .setContent("You clicked the map at " + e.latlng.toString())
-    .openOn(map)
+    .openOn(map);
 }
 
 map.on('click', onMapClick);
 
 map.addEventListener("dblclick"), () => {
-  .ask()
-}
+  .ask();
+});
   
