@@ -1,4 +1,4 @@
-var map = L.map('map').setView([43.63, -79.40], 13);
+var map = L.map('map').setView([43.637869, -79.406311], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -6,7 +6,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
-var marker = L.marker([43.63786979217238, -79.40631128698502]).addTo(map);
+var marker = L.marker([43.637869, -79.406311]).addTo(map);
 
 var polygon = L.polygon([
   [43.635376, -79.426003],
