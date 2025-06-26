@@ -64,8 +64,3 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
-
-map.on("dblclick", () => {
-  .ask();
-});
-  
