@@ -74,7 +74,7 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
-map.addEventListener("dblclick", () => {
+map.on("dblclick", () => {
   .ask();
 });
   
