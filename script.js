@@ -57,23 +57,25 @@ polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 var popup = L.popup();
 
 function onMapClick(e) {
+  const latlng = e.latlng;
+  const content = 
+    <div>
+      <p>You clicked he map at ${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}</p>
+      <button id="log-spot?">Yes,log as shady spot</button>
+    </div>
+  ;
   popup
     .setLatLng(e.latlng)
-    .setContent("You clicked the map at " + e.latlng.toString())
+    .setContent(content)
     .openOn(map);
 }
 
-map.on('click', onMapClick);
-
-function ask() {
-  var answer = window.confirm("Would you like to input this location as a shady spot?");
-    if (answer) {
-      // send to webapp
-    } else {
-      // close window
-    }
+map.on('popupopen', function () {
+  const confirmButton = document.getElementById('log-spot?');
+  if (confirmButton) {
+    confirmButton.addEventListener('click', function () {
+    // send data to web app
+    alert('You logged your shady spot! Thanks!');
+    });
+  }
 }
-
-map.addEventListener("dblclick", () => {
-  ask();
-});
