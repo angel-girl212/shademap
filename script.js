@@ -63,7 +63,8 @@ function onMapClick(e) {
       <p>You clicked he map at ${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}</p>
       <button id="log-spot?">Yes,log as shady spot</button>
     </div>
-  ;
+    ;
+  
   popup
     .setLatLng(e.latlng)
     .setContent(content)
