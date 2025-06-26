@@ -64,3 +64,16 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
+
+function ask() {
+  var answer = window.confirm("Would you like to input this location as a shady spot?");
+    if (answer) {
+      // send to webapp
+    } else {
+      window.close();
+    }
+}
+
+map.on("dblclick", () => {
+  ask();
+});
