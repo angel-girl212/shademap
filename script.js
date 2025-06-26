@@ -58,12 +58,12 @@ var popup = L.popup();
 
 function onMapClick(e) {
   const latlng = e.latlng;
-  const content = 
+  const content = `
     <div>
       <p>You clicked he map at ${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}</p>
-      <button id="log-spot?">Yes,log as shady spot</button>
+      <button id="log-spot">Yes,log as shady spot</button>
     </div>
-    ;
+  `;
   
   popup
     .setLatLng(e.latlng)
@@ -72,11 +72,11 @@ function onMapClick(e) {
 }
 
 map.on('popupopen', function () {
-  const confirmButton = document.getElementById('log-spot?');
+  const confirmButton = document.getElementById('log-spot');
   if (confirmButton) {
     confirmButton.addEventListener('click', function () {
     // send data to web app
     alert('You logged your shady spot! Thanks!');
     });
   }
-}
+});
