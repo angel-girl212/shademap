@@ -6,7 +6,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
-var marker = L.marker([43.63, -79.40]).addTo(map);
+var marker = L.marker([43.63786979217238, -79.40631128698502]).addTo(map);
 
 var polygon = L.polygon([
   [43.635376, -79.426003],
