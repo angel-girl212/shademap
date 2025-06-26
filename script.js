@@ -54,15 +54,6 @@ var polygon = L.polygon([
 
 polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 
-function ask() {
-  var answer = window.confirm("Would you like to input this location as a shady spot?");
-    if (answer) {
-      // send to webapp
-    } else {
-      window.close();
-    }
-}
-
 var popup = L.popup();
 
 function onMapClick(e) {
