@@ -74,6 +74,6 @@ function ask() {
     }
 }
 
-map.on("dblclick", () => {
+map.addEventListener("dblclick", () => {
   ask();
 });
