@@ -54,8 +54,13 @@ var polygon = L.polygon([
 
 polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 
+var popup = L.popup();
+
 function onMapClick(e) {
-  aler("You clicked the map at " + e.latlng);
+  popup
+    .setLatLng(e.latlng)
+    .setContent("You clicked the map at " + e.latlng.toString())
+    .openOn(map);
 }
 
 map.on('click', onMapClick);
