@@ -61,13 +61,14 @@ function onMapClick(e) {
     .setLatLng(e.latlng)
     .setContent("You clicked the map at " + e.latlng.toString())
     .openOn(map)
-    var answer = window.confirm("Would you like to input this location as a shady spot?");
+}
+
+map.on('click', onMapClick);
+
+var answer = window.confirm("Would you like to input this location as a shady spot?");
     if (answer) {
       // send to webapp
     } else {
       window.close();
     }
-}
-
-map.on('click', onMapClick);
   
