@@ -7,6 +7,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var marker = L.marker([43.637869, -79.406311]).addTo(map);
+marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
 var polygon = L.polygon([
   [43.635376, -79.426003],
@@ -50,4 +51,12 @@ var polygon = L.polygon([
   [43.632573, -79.424909],
   [43.635376, -79.426003]
   ]).addTo(map);
+
+polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
+
+function onMapClick(e) {
+  aler("You clicked the map at " + e.latlng);
+}
+
+map.on('click', onMapClick);
   
