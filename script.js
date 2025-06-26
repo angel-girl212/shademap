@@ -64,9 +64,9 @@ function onMapClick(e) {
     var answer = window.confirm("Would you like to input this location as a shady spot?");
     if (answer) {
       // send to webapp
+    } else {
+      window.close();
     }
-    else {
-     window.close()
 }
 
 map.on('click', onMapClick);
