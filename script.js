@@ -102,11 +102,12 @@ function createPinpoint(e) {
   var coord = e.latlng.toString().split(',');
   var lat = coord[0].split('(');
   var lng = coord[1].split(')');
-  var user_marker = L.marker(lat, lng).addTo(map);
-  marker.bindPopup("<b>User Generated Shade Spot</b><br>LAT: " + lat[1] + " and LONG: " + lng[0]").openPopup();
+  var user_marker = L.marker([lat, lng]).addTo(map);
+  marker.bindPopup("<b>User Generated Shade Spot").openPopup();
 }
 
 map.addEventListener("dblclick", (e) => {
   ask(e);
   sendToForm(e);
+  createPinpoint(e);
 });
