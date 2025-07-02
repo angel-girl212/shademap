@@ -69,20 +69,18 @@ function sendToSheet(e) {
   const timeStamp = new Date().toISOString();
   const userId = "user-" + Math.floor(Math.random() * 100000);
 
-  fetch("https://script.google.com/macros/s/AKfycbxz6jRb8K05KTkQtRkkf_9kCLHI_0XQb0v-_WvoiXsWQF0j5EvChDGBaveQaXoml0Wn/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbzkgmPerGxVcvQIVb7ttZK6GwNkbCrZYHvImWBDFhZ2dH9X7a5ooFDKF2gnpsmCIPaG/exec", {
     method: "POST",
-    body: JSON.stringify({
-      lat: lat,
-      lng: lng,
-      timeStamp: timeStamp,
-      userId: userId
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(res => console.log("Submitted"))
-    .catch(err => console.error("Error:", err));
-}
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    lat: lat,
+    lng: lng,
+    timeStamp: timeStamp,
+    userId: userId
+  })
+})
 
 map.addEventListener('click', (e) => {
   add(e);
