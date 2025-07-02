@@ -73,8 +73,8 @@ function ask() {
 	var lat = coord[0].split('(');
 	var lng = coord[1].split(')');
 	alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
-	L.marker(e.latlng).addTo(map);
-      }
+       L.marker(e.latlng).addTo(map);
+      });
     } else {
       // close window
     }
@@ -83,4 +83,3 @@ function ask() {
 map.addEventListener("dblclick", () => {
   ask();
 });
-
