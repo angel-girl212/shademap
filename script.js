@@ -73,12 +73,9 @@ function ask(e) {
     	var lng = coord[1].split(')');
     	alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
     	L.marker(e.latlng).addTo(map);
-      }
-    } else {
-      // close window
     }
-}
+ } // add else statement
 
-map.addEventListener("dblclick", function(e) {
+map.addEventListener("dblclick", (e) => {
   ask(e);
 });
