@@ -80,11 +80,11 @@ function sendToSheet(e) {
     headers: {
       "Content-Type": "application/json"
     }
-  }).then(res => console.log("Submitted)"))
+  }).then(res => console.log("Submitted"))
     .catch(err => console.error("Error:", err));
 }
 
 map.addEventListener('click', (e) => {
   add(e);
-  sendToForm(e);
+  sendToSheet(e);
 });
