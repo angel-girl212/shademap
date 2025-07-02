@@ -58,29 +58,30 @@ function add(e) {
   var coord = e.latlng.toString().split(',');
   var lat = coord[0].split('(');
   var lng = coord[1].split(')');
-  alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
+  alert("You added a shady spot at " + lat[1] + " and" + lng[0]);
   const marker = L.marker(e.latlng).addTo(map);
    marker.bindPopup("<b>Your Shady Spot </b><br>" + e.latlng.toString()).openPopup();
  } 
 
-function sendToForm(e) {
+function sendToSheet(e) {
   const lat = e.latlng.lat.toFixed(5);
   const lng = e.latlng.lng.toFixed(5);
   const timeStamp = new Date().toISOString();
   const userId = "user-" + Math.floor(Math.random() * 100000);
 
-  const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
-  const formData = new URLSearchParams();
-  formData.append("entry.901935268", lat);     
-  formData.append("entry.1956546171", lng);     
-  formData.append("entry.56758637", timeStamp);  // timestamp optional field
-  formData.append("entry.1570862743", userId); // userId
-
-  fetch(formUrl, {
+  fetch("https://script.google.com/macros/s/AKfycbwnevL48N4AacYhv8XRvjquDs262pXstUOUEWa84oANJyg3JcWoo-NLkbiOJQZFvkjW/exec", {
     method: "POST",
-    mode: "no-cors",
-    body: formData
-  }).catch(err => console.error("Error:", err));
+    body: JSON.stringify({
+      lat: lat,
+      lng: lng,
+      timeStamp: timeStamp,
+      userId: userId
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => console.log("Submitted)"))
+    .catch(err => console.error("Error:", err));
 }
 
 map.addEventListener('click', (e) => {
