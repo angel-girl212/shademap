@@ -58,9 +58,9 @@ function add(e) {
   var coord = e.latlng.toString().split(',');
   var lat = coord[0].split('(');
   var lng = coord[1].split(')');
-  alert("You added a shady spot at LAT: " + lat[1] + " and LONG: " + lng[0]);
+  alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
   const marker = L.marker(e.latlng).addTo(map);
-   marker.bindPopup("<b>Your Shady Spot</b>" + e.latlng.toString()).openPopup();
+   marker.bindPopup("<b>Your Shady Spot </b><br>" + e.latlng.toString()).openPopup();
  } 
 
 function sendToForm(e) {
