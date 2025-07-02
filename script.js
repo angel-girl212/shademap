@@ -57,8 +57,10 @@ polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 var popup = L.popup();
 
 function onMapClick(e) {
-  var marker = L.marker(e.latlng).addTo(map);
-  marker.bindPopup("<b>USER POPUP</b><br>address").openPopup()
+  popup
+    .setLatLng(e.latlng)
+    .setContent("You clicked the map at " + e.latlng.toString())
+    .openOn(map);
 }
 
 map.on('click', onMapClick);
@@ -67,11 +69,12 @@ function ask() {
   var answer = window.confirm("Would you like to input this location as a shady spot?");
     if (answer) {
       function(e){
-		 		var coord = e.latlng.toString().split(',');
-		 		var lat = coord[0].split('(');
-		 		var lng = coord[1].split(')');
-		 		alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
-		 		L.marker(e.latlng).addTo(map);
+	var coord = e.latlng.toString().split(',');
+	var lat = coord[0].split('(');
+	var lng = coord[1].split(')');
+	alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
+	L.marker(e.latlng).addTo(map);
+      }
     } else {
       // close window
     }
