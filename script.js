@@ -71,16 +71,19 @@ function sendToSheet(e) {
 
   fetch("https://script.google.com/macros/s/AKfycbzkgmPerGxVcvQIVb7ttZK6GwNkbCrZYHvImWBDFhZ2dH9X7a5ooFDKF2gnpsmCIPaG/exec", {
     method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    lat: lat,
-    lng: lng,
-    timeStamp: timeStamp,
-    userId: userId
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      lat: lat,
+      lng: lng,
+      timeStamp: timeStamp,
+      userId: userId
+    })
   })
-})
+  .then(res => console.log("Submitted"))
+  .catch(err => console.error("Error:", err));
+}
 
 map.addEventListener('click', (e) => {
   add(e);
