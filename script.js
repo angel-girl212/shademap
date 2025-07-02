@@ -71,7 +71,7 @@ function ask(e) {
     	var coord = e.latlng.toString().split(',');
     	var lat = coord[0].split('(');
     	var lng = coord[1].split(')');
-    	alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
+    	alert("You added a shady spot at LAT: " + lat[1] + " and LONG: " + lng[0]);
     	L.marker(e.latlng).addTo(map);
     }
  } // add else statement
