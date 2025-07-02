@@ -94,8 +94,6 @@ function sendToForm(e) {
     method: "POST",
     mode: "no-cors",
     body: formData
-  }).then(() => {
-    alert("Submitted to Google Form");
   }).catch(err => console.error("Error:", err));
 }
 
