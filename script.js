@@ -71,8 +71,9 @@ function ask(e) {
     	var coord = e.latlng.toString().split(',');
     	var lat = coord[0].split('(');
     	var lng = coord[1].split(')');
-    	alert("You added a shady spot at LAT: " + lat[1] + " and LONG: " + lng[0]);
-    	L.marker(e.latlng).addTo(map);
+    	// alert("You added a shady spot at LAT: " + lat[1] + " and LONG: " + lng[0]);
+    	const marker = L.marker(e.latlng).addTo(map);
+      marker.bindPopup("<b>User Generated Marker</b><br>hello world").openPopup();
     }
  } // add else statement
 
@@ -98,13 +99,7 @@ function sendToForm(e) {
   }).catch(err => console.error("Error:", err));
 }
 
-function createPinpoint(e) {
-  L.marker(e.latlng).addTo(map);
-  marker.bindPopup("<b>User Generated Marker</b><br>hello world").openPopup();
-}
-
 map.addEventListener("dblclick", (e) => {
   ask(e);
   sendToForm(e);
-  createPinpoint(e);
 });
