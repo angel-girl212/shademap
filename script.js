@@ -60,7 +60,7 @@ function add(e) {
   var lng = coord[1].split(')');
   alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
   const marker = L.marker(e.latlng).addTo(map);
-   marker.bindPopup("<b>Your Shady Spot </b><br>" + e.latlng.toString()).openPopup();
+  marker.bindPopup("<b>Your Shady Spot </b><br>" + e.latlng.toString()).openPopup();
  } 
 
 function sendToForm(e) {
