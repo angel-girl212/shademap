@@ -77,7 +77,8 @@ function ask(e) {
     } else {
       // close window
     }
+}
 
-map.addEventListener("dblclick", () => {
+map.addEventListener("dblclick", function(e) {
   ask(e);
 });
