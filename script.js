@@ -98,5 +98,5 @@ function sendToForm(e) {
 
 map.addEventListener("dblclick", (e) => {
   ask(e);
-  sendtoform(e);
+  sendToForm(e);
 });
