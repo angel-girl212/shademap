@@ -69,7 +69,7 @@ function sendToSheet(e) {
   const timeStamp = new Date().toISOString();
   const userId = "user-" + Math.floor(Math.random() * 100000);
 
-  fetch("https://script.google.com/macros/s/AKfycbzAsLjoPKFMikCIH2b90NpCFl3hRvtiS29Vq7Z1Cl2qMIcR1bDQw1arkoCyeK9axFps/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwkGAroDt5pV-6e1jL4M_BQ__ovEY924nVJCGMg_clTuKQjOPJxNvpXJswduXVTONcc/exec", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
