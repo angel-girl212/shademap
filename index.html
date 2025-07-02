@@ -15,14 +15,42 @@
         height: 500px;
         width: 100%;
       }
+      body {
+        font-family: Arial Narrow;
+        background-color: #8ACE00;
+        color: #000000;
+      }
+      input[type="text"] {
+        font-family: Arial Narrow;
+        color: #000000; /* Text color inside input box */
+        background-color: #FFFFFF; /* Background color of input box */
+        border: 2px solid #000000; /* Border color of input box */
+        padding: 5px;
+        width: 300px;
+      }
+
+      h1, h2, p {
+        color: #000000; /* Ensure all text remains black */
+      }
+
+      em {
+          color: #000000;
+          font-size: 0.8em;
+      }
+
+      #result {
+          font-size: 1.5em; /* Larger result font */
+          font-weight: normal;
+      }
     </style>
   </head>
-  <body>
+  <body> 
     <h1>MAP YO SHADE</h1>
     <p class="map-info">
-      single click to view
-      double click to add
+      click a location on the map tile to add ur shade
     </p>
+    <p id="prompt">Type in ur username"</p>
+    <input type="text" id="welcome_input" placeholder="Type it in...">
     <div id="map"></div>
 
     <script
