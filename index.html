@@ -19,8 +19,25 @@
   </head>
   <body>
     <h1>MAP YO SHADE</h1>
-    <p class="map-info">
-      single click to view
-      double click to add
-    </p>
+    <p class="map-info">single click to view<br />double click to add</p>
     <div id="map"></div>
+
+    <!-- ✅ Add Leaflet JS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-o9N1j7k7kQ+WyCRvU52ScP52SAO3MfNT1pLFbPCQh+M="
+      crossorigin=""
+    ></script>
+
+    <!-- ✅ Add your map init script -->
+    <script>
+      var map = L.map('map').setView([43.637869, -79.406311], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19
+      }).addTo(map);
+    </script>
+  </body>
+</html>
