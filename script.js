@@ -8,7 +8,16 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Add the geocoder plugin (similar to folium.plugins.Geocoder)
 L.Control.geocoder({
-  defaultMarkGeocode: true
+  defaultMarkGeocode: false
+})
+.on('markgeocode', function(e) {
+  
+  const latlng = e.geocode.center;
+  
+  map.setView(latlng, 16);
+  
+  sendToForm({ latlng });
+  
 }).addTo(map);
 
 var marker = L.marker([43.637869, -79.406311]).addTo(map);
@@ -55,7 +64,7 @@ var polygon = L.polygon([
   [43.632923, -79.423289],
   [43.632573, -79.424909],
   [43.635376, -79.426003]
-  ]).addTo(map);
+  ]) // .addTo(map);
 
 polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 
