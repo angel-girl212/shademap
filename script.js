@@ -46,7 +46,8 @@ function add(e) {
   // var lat = coord[0].split('(');
   // var lng = coord[1].split(')');
   //alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
-  const markerName = prompt(`You added a shady spot at ${lat[1]} and ${lng[0]}. What would like to name it?`);
+  // const markerName = prompt(`You added a shady spot at ${lat[1]} and ${lng[0]}. What would like to name it?`);
+  const markerName = prompt(`You added a shady spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. What would you like to name it?`);
   const description = prompt(`What makes you shady why do u like?`); // lmfao
   
   if (markerName) {
