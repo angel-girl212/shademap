@@ -76,11 +76,15 @@ function add(e) {
   var lng = coord[1].split(')');
   //alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
   let markerName = prompt(`You added a shady spot at ${lat[1]} and ${lng[0]}. What would like to name it?`);
-  const marker = L.marker(e.latlng).addTo(map);
-  marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
- } 
 
-function sendToForm(e) {
+  if (markerName) {
+    const marker = L.marker(e.latlng).addTo(map);
+    marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
+    sendToForm(e, markerName);
+ }
+}
+
+function sendToForm(e, markerName) {
   const lat = e.latlng.lat.toFixed(5);
   const lng = e.latlng.lng.toFixed(5);
   // const timeStamp = new Date().toISOString();
@@ -89,7 +93,8 @@ function sendToForm(e) {
   const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.901935268", lat);     
-  formData.append("entry.1956546171", lng);     
+  formData.append("entry.1956546171", lng);
+  formData.append("entry.1519028228", markerName);
   // formData.append("entry.56758637", timeStamp);  // timestamp optional field
   // formData.append("entry.1570862743", userId); // userId
 
@@ -102,5 +107,5 @@ function sendToForm(e) {
 
 map.addEventListener('click', (e) => {
   add(e);
-  sendToForm(e);
+  sendToForm(e, markerName);
 });
