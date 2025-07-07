@@ -11,8 +11,10 @@ L.Control.geocoder({
   defaultMarkGeocode: false
 })
 .on('markgeocode', function(e) {
-  
   const latlng = e.geocode.center;
+
+  const marker = L.marker(latlng).addTo(map);
+  marker.bindPopup("<b>User Generated Location</b><br>" + latlong.toString()).openPopup();
   
   map.setView(latlng, 16);
   
