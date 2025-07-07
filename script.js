@@ -14,7 +14,7 @@ L.Control.geocoder({
   const latlng = e.geocode.center;
 
   const marker = L.marker(latlng).addTo(map);
-  marker.bindPopup("<b>User Generated Location</b><br>" + latlong.toString()).openPopup();
+  marker.bindPopup("<b>User Generated Location</b><br>" + latlng.toString()).openPopup();
   
   map.setView(latlng, 16);
   
