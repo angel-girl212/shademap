@@ -20,10 +20,7 @@ L.Control.geocoder({
     const description = prompt(`What makes you shady why do u like?`); // lmfao
     const marker = L.marker(latlng).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${latlng.toString()}`).openPopup();
-  }
-
-  if (markerName || description) {
-  sendToForm({ latlng }, markerName, description);
+    sendToForm({ latlng }, markerName, description);
   }
 })
 .addTo(map);
@@ -53,10 +50,7 @@ function add(e) {
     const description = prompt(`What makes you shady why do u like?`); // lmfao
     const marker = L.marker(e.latlng).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
- }
-
-  if (markerName || description) {
-  sendToForm(e, markerName, description);
+    sendToForm(e, markerName, description);
  }
 }
 
