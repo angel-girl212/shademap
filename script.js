@@ -6,6 +6,11 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
+// Add the geocoder plugin (similar to folium.plugins.Geocoder)
+L.Control.geocoder({
+  defaultMarkGeocode: true
+}).addTo(map);
+
 var marker = L.marker([43.637869, -79.406311]).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
