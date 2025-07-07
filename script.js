@@ -23,7 +23,7 @@ L.Control.geocoder({
   }
 
   if (markerName || description) {
-  sendToForm(e, markerName, description);
+  sendToForm({ latlng }, markerName, description);
   }
 })
 .addTo(map);
