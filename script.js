@@ -59,11 +59,6 @@ var polygon = L.polygon([
 
 polygon.bindPopup("<b>Under Gardiner Public Realm Plan</b><br>study area");
 
-// Add geocoder search bar
-L.Control.geocoder({
-  defaultMarkGeocode: true // Set to false if you want custom marker handling
-}).addTo(map);
-
 function add(e) {
   var coord = e.latlng.toString().split(',');
   var lat = coord[0].split('(');
