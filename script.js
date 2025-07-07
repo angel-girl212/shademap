@@ -6,7 +6,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
-// Add the geocoder plugin (similar to folium.plugins.Geocoder)
 L.Control.geocoder({
   defaultMarkGeocode: false
 })
@@ -15,6 +14,7 @@ L.Control.geocoder({
 
   const marker = L.marker(latlng).addTo(map);
   marker.bindPopup("<b>User Generated Location</b><br>" + latlng.toString()).openPopup();
+  // add name to be search result as in geocoding default if marked "True"
   
   map.setView(latlng, 16);
   
@@ -74,9 +74,10 @@ function add(e) {
   var coord = e.latlng.toString().split(',');
   var lat = coord[0].split('(');
   var lng = coord[1].split(')');
-  alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
+  //alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
+  let markerName = prompt(`You added a shady spot at ${lat[1]} and ${lng[0]}. What would like to name it?`);
   const marker = L.marker(e.latlng).addTo(map);
-  marker.bindPopup("<b>Your Shady Spot </b><br>" + e.latlng.toString()).openPopup();
+  marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
  } 
 
 function sendToForm(e) {
