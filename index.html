@@ -16,10 +16,25 @@
     />
     
     <style>
-      #map {
-        height: 500px;
-        width: 75%;
-      }
+        body {
+            font-family: Arial Narrow;
+            background-color: #8ACE00; /* Background color */
+            color: #000000; /* Font color */
+        }
+
+        input[type="text"] {
+            font-family: Arial Narrow;
+            color: #000000; /* Text color inside input box */
+            background-color: #FFFFFF; /* Background color of input box */
+            border: 2px solid #000000; /* Border color of input box */
+            padding: 5px;
+            width: 300px;
+        }
+      
+        #map {
+          height: 500px;
+          width: 75%;
+        }
     </style>
   </head>
   <body>
@@ -28,6 +43,11 @@
       click to add
     </p>
     <div id="map"></div>
+
+    <div id="quiz">
+        <p id="prompt">Reporting an error or comment?</p>
+        <input type="text" id="response" placeholder="Put it in here...">
+        <p id="start_message"></p> <!-- Placeholder for the "Bye bye" message -->
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
