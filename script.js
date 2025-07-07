@@ -71,14 +71,14 @@ function add(e) {
 function sendToForm(e) {
   const lat = e.latlng.lat.toFixed(5);
   const lng = e.latlng.lng.toFixed(5);
-  const timeStamp = new Date().toISOString();
+  // const timeStamp = new Date().toISOString();
   const userId = "user-" + Math.floor(Math.random() * 100000);
 
   const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.901935268", lat);     
   formData.append("entry.1956546171", lng);     
-  formData.append("entry.56758637", timeStamp);  // timestamp optional field
+  // formData.append("entry.56758637", timeStamp);  // timestamp optional field
   formData.append("entry.1570862743", userId); // userId
 
   fetch(formUrl, {
