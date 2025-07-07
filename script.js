@@ -9,18 +9,20 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.Control.geocoder({
   defaultMarkGeocode: false
 })
-.on('markgeocode', function(e) {
+.on('markgeocode', e => {
   const latlng = e.geocode.center;
 
-  const marker = L.marker(latlng).addTo(map);
-  marker.bindPopup("<b>User Generated Location</b><br>" + latlng.toString()).openPopup();
-  // add name to be search result as in geocoding default if marked "True"
-  
   map.setView(latlng, 16);
-  
-  sendToForm({ latlng });
-  
-}).addTo(map);
+
+  let markerName = prompt(`You added a shady spot at ${latlng.lat.toFixed(5)} and ${latlng.lng.toFixed(5)}. What would you like to name it?`);
+
+  if (markerName) {
+    const marker = L.marker(latlng).addTo(map);
+    marker.bindPopup(`<b>${markerName}</b><br>${latlng.toString()}`).openPopup();
+    sendToForm({ latlng }, markerName);
+  }
+})
+.addTo(map);
 
 var marker = L.marker([43.637869, -79.406311]).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
