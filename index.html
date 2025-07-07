@@ -44,10 +44,35 @@
     </p>
     <div id="map"></div>
 
-    <div id="quiz">
+    <div id="response">
         <p id="prompt">Reporting an error or comment?</p>
         <input type="text" id="response" placeholder="Put it in here...">
+        <button id="submitBtn">Submit</button>
         <p id="start_message"></p> <!-- Placeholder for the "Bye bye" message -->
+    </div>
+
+    <script>
+      function sendToForm(response) {
+        const formUrl = "https://docs.google.com/forms/d/1g24naoOd19pTGp5DMciREWWcUJmmdL1ra-A1C9KOopk/formResponse";
+        const formData = new URLSearchParams();
+        formData.append("entry.2142199815", response);     
+
+        fetch(formUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        }).catch(err => console.error("Error:", err));
+      }
+
+      document.getElementById("submitBtn").addEventListener("click", () => {
+        const inputValue = document.getElementById("response").value.trim();
+        if (inputValue) {
+          sendToForm(inputValue);
+          document.getElementById("start_message").textContent = "Thank you!";
+          document.getElementById("response").value = ""; // Clear input
+        }
+      });
+    </script>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
