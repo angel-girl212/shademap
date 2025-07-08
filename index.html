@@ -18,15 +18,15 @@
     <style>
         body {
             font-family: Garamond;
-            background-color: #FFFFFF; /* Background color */
-            color: #000000; /* Font color */
+            background-color: #FFFFFF;
+            color: #000000;
         }
 
         input[type="text"] {
             font-family: Garamond;
-            color: #000000; /* Text color inside input box */
-            background-color: #FFFFFF; /* Background color of input box */
-            border: 2px solid #000000; /* Border color of input box */
+            color: #000000;
+            background-color: #FFFFFF;
+            border: 2px solid #000000;
             padding: 5px;
             width: 300px;
         }
@@ -34,6 +34,16 @@
         #map {
           height: 500px;
           width: 75%;
+        }
+
+        button {
+            font-family: Garamond;
+            padding: 5px 15px;
+            margin-top: 10px;
+            background-color: #000000;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
         }
     </style>
   </head>
@@ -47,18 +57,28 @@
     <div id="user_feedback">
         <p id="prompt">Reporting an error or comment?</p>
         <input type="text" id="response" placeholder="Put it in here...">
+        <button id="submitBtn">Submit</button>
+        <p id="start_message"></p>
     </div>
 
     <script>
       function sendToForm(response) {
         const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeSJ3uU_e9Lp87QOZTKzQgMXVLNLAKFhSRGdHbKUNh4hz-73w/formResponse";
-        const formData = new URLSearchParams();
+        
+        // Use FormData instead of URLSearchParams
+        const formData = new FormData();
         formData.append("entry.2142199815", response);     
 
         fetch(formUrl, {
           method: "POST",
           mode: "no-cors",
-          body: formData
+          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }).then(() => {
+          document.getElementById("start_message").textContent = "Thank you!";
+          document.getElementById("response").value = "";
         }).catch(err => console.error("Error:", err));
       }
 
@@ -66,8 +86,18 @@
         const inputValue = document.getElementById("response").value.trim();
         if (inputValue) {
           sendToForm(inputValue);
-          document.getElementById("start_message").textContent = "Thank you!";
-          document.getElementById("response").value = ""; // Clear input
+        } else {
+          document.getElementById("start_message").textContent = "Please enter some text";
+        }
+      });
+
+      // Also allow submission on Enter key
+      document.getElementById("response").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          const inputValue = document.getElementById("response").value.trim();
+          if (inputValue) {
+            sendToForm(inputValue);
+          }
         }
       });
     </script>
