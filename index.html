@@ -38,7 +38,12 @@
     }
 
       body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
       font-family: 'TBWFont', serif;
+      margin: 2rem;
     }
       
       #map {
@@ -70,7 +75,7 @@
               1.516-2.922 2.943-2.922 1.538 0 2.746.945 2.988 2.922h-5.931Zm27.723-5.206h4.129v2.811h-4.129v7.469h4.129v2.812h-5.14l-2.372-2.131V1.054h3.405v3.933h-.022Z" fill="currentColor"></path>
             <title>The Bentway</title>
           </svg>
-        </a>a>  
+        </a>  
     <!---<h1>MAP SHADE PROPOTYPING</h1>--->
     <p class="map-info">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas congue, arcu a ornare dictum, nisl neque aliquet est, et ultricies arcu mauris vel velit. 
@@ -79,7 +84,8 @@
       Vivamus aliquet tellus pharetra massa rutrum convallis. Integer posuere massa nec iaculis ullamcorper. Curabitur ligula nunc, tincidunt ac lorem facilisis, euismod feugiat tellus. 
       In et consequat augue. Etiam fermentum nibh nisi, vitae mattis dolor consequat vitae. 
     </p>
-    <div id="map"></div>
+    
+        <div id="map"></div>
 
     <div id="user_feedback">
         <p id="prompt">Reporting an error or comment?</p>
