@@ -18,6 +18,14 @@
       rel="stylesheet"
       href="https://thebentway.ca/wp-content/themes/thebentway.ca/styles/style.css?ver=d532a2ec2176417e1ad0"
     />
+
+    <style>
+      #map {
+      height: 500px;
+      width: 75%;
+      margin: 20px auto;
+    }
+    </style>
   
   </head>
   <body>
@@ -31,29 +39,6 @@
         <p id="prompt">Reporting an error or comment?</p>
         <input type="text" id="response" placeholder="Put it in here...">
     </div>
-
-    <script>
-      function sendToForm(response) {
-        const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeSJ3uU_e9Lp87QOZTKzQgMXVLNLAKFhSRGdHbKUNh4hz-73w/formResponse";
-        const formData = new URLSearchParams();
-        formData.append("entry.2142199815", response);     
-
-        fetch(formUrl, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData
-        }).catch(err => console.error("Error:", err));
-      }
-
-      document.getElementById("submitBtn").addEventListener("click", () => {
-        const inputValue = document.getElementById("response").value.trim();
-        if (inputValue) {
-          sendToForm(inputValue);
-          document.getElementById("start_message").textContent = "Thank you!";
-          document.getElementById("response").value = ""; // Clear input
-        }
-      });
-    </script>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
