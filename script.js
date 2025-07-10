@@ -61,7 +61,8 @@ function add(e) {
         timeday = "Night";
         break;
       default:
-        alert("invalid input") return;
+        alert("invalid input");
+        return;
 }
     
     const marker = L.marker(e.latlng).addTo(map);
