@@ -1,10 +1,9 @@
-<html lang="en-US" style="--scroll-y: 0px;">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>Shade Map - The Bentway</title>
     <!--<link rel="canonical" href="link">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:locale" content="en_US">
     <meta property="og:type" content="article">
     <meta property="og:title" content="Shade Map - The Bentway">
@@ -22,44 +21,11 @@
       href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
     />
 
-    <link
-      rel="stylesheet"
-      href="https://thebentway.ca/wp-content/themes/thebentway.ca/styles/style.css?ver=d532a2ec2176417e1ad0"
-    />
-
     <style>
-      @font-face {
-      font-family: 'TBWFont';
-      src: url('fonts/TBW-Galeria-Regular.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-      main {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start; /* aligns left */
-      gap: 2rem; /* spacing between blocks */
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      text-align: left;
-    }
-
-      body {
-      margin: 0;
-      font-family: 'TBWFont', serif;
-    }
-
-      .wp-block-columns {
-      display: block !important;
-    }
-      
-      #map {
-      height: 500px;
-      width: 100%;
-      margin: 1rem auto;  
-    }
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #controls { height: 40px; background: #f8f8f8; display: flex; align-items: center; padding: 0 1rem; font-family: sans-serif; }
+      #map { height: calc(100% - 40px); }
+      .leaflet-popup-content { font-family: sans-serif; font-size: 14px; line-height: 1.4; }
     </style>
   
   </head>
@@ -86,15 +52,6 @@
     </header>
 
     <main>
-      <h1>Shade Map Input</h1>
-
-      <p class="map-info">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas congue, arcu a ornare dictum, nisl neque aliquet est, et ultricies arcu mauris vel velit. 
-      Curabitur porta feugiat imperdiet. Duis id turpis scelerisque, cursus mauris iaculis, tempus orci. Nulla ornare eu augue nec pharetra. 
-      Aliquam erat volutpat. Suspendisse sagittis venenatis enim, eget porta nibh malesuada ut. Nullam feugiat euismod leo nec congue. 
-      Vivamus aliquet tellus pharetra massa rutrum convallis. Integer posuere massa nec iaculis ullamcorper. Curabitur ligula nunc, tincidunt ac lorem facilisis, euismod feugiat tellus. 
-      In et consequat augue. Etiam fermentum nibh nisi, vitae mattis dolor consequat vitae. 
-      </p>
 
       <div id="map"></div>
       
