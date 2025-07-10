@@ -14,10 +14,10 @@ L.Control.geocoder({
 
   map.setView(latlng, 16);
 
-  const markerName = prompt(`You added a shady spot at ${latlng.lat.toFixed(5)} and ${latlng.lng.toFixed(5)}. What would you like to name it?`);
+  const markerName = prompt(`You clicked a spot at ${latlng.lat.toFixed(5)} and ${latlng.lng.toFixed(5)}. Add a name to submit`);
   
   if (markerName) {
-    const description = prompt(`What makes you shady why do u like?`); // lmfao
+    const description = prompt(`Describe your shady spot`); // lmfao
     const marker = L.marker(latlng).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${latlng.toString()}`).openPopup();
     sendToForm({ latlng }, markerName, description);
@@ -44,10 +44,10 @@ function add(e) {
   // var lng = coord[1].split(')');
   //alert("You added a shady spot at" + lat[1] + " and " + lng[0]);
   // const markerName = prompt(`You added a shady spot at ${lat[1]} and ${lng[0]}. What would like to name it?`);
-  const markerName = prompt(`You added a shady spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. What would you like to name it?`);
+  const markerName = prompt(`You clicked a spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. Add a name to submit`);
   
   if (markerName) {
-    const description = prompt(`What makes you shady why do u like?`); // lmfao
+    const description = prompt(`Describe your shady spot`); // lmfao
     const marker = L.marker(e.latlng).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
     sendToForm(e, markerName, description);
