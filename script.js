@@ -1,13 +1,42 @@
-var map = L.map('map').setView([43.637869, -79.406311], 13);
+const map = L.map('map').setView([43.637869, -79.406311], 13);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const street =L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
+const satellite = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    { attribution: '© Esri' }
+);
+
+//    const heatLayer = L.tileLayer(
+//      'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=b093a4af9795adc8f1ae5f20076873b3',
+//      {
+//        attribution: '© OpenWeatherMap',
+//        opacity: 0.95
+//      }
+//    );
+
+  let currentBase = 'street';
+  // let heatVisible = false;
+
+  function setBaseLayer(name) {
+    map.removeLayer(street);
+    map.removeLayer(satellite);
+    if (name === 'street') {
+      street.addTo(map);
+      currentBase = 'street';
+    } else {
+      satellite.addTo(map);
+      currentBase = 'satellite';
+    }
+  }
+
 L.Control.geocoder({
-  defaultMarkGeocode: false
+  defaultMarkGeocode: false,
+  position: 'topright'
 })
 .on('markgeocode', e => {
   const latlng = e.geocode.center;
