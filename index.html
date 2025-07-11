@@ -92,11 +92,17 @@
       })
       .addTo(map);
 
-      fetch('toronto_bound.geojson')
-        .then(response => response.json())
+      fetch('toronto_bound.json')
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.json();
+        })
         .then(data => {
           L.geoJSON(data).addTo(map);
-      });
+        })
+        .catch(error => {
+          console.error("Failed to load GeoJSON:", error);
+        });
       
       var marker = L.marker([43.637869, -79.406311]).addTo(map);
       marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
