@@ -53,7 +53,16 @@ fetch('toronto_bound.json')
     console.error("Failed to load JSON:", error);
   });
 
-var marker = L.marker([43.637869, -79.406311]).addTo(map);
+var goldIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const marker = L.marker([43.637869, -79.406311], {icon: goldIcon}).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
 function add(e) {
@@ -110,7 +119,7 @@ function add(e) {
         return;
     }
 
-    const marker = L.marker(e.latlng).addTo(map);
+    const marker = L.marker(e.latlng, {icon: goldIcon}).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
     sendToForm(e, markerName, description, timeday);
   }
