@@ -35,6 +35,9 @@ L.Control.geocoder({
   })
   .addTo(map);
 
+map.createPane('topPane');
+map.getPane('topPane').style.zIndex = 650;
+
 fetch('toronto_bound.json')
   .then(response => {
     if (!response.ok) throw new Error('Network response error');
@@ -42,6 +45,7 @@ fetch('toronto_bound.json')
   })
   .then(data => {
     boundaryLayer = L.geoJSON(data, {
+      pane: 'topPane',
       style: {
         color: "#ffd300",
         weight: 4,
@@ -49,7 +53,7 @@ fetch('toronto_bound.json')
       },
       onEachFeature: function (feature, layer) {
         layer.bindPopup("Toronto Regional Boundary");
-      } 
+      }  
     }).addTo(map);
   })
   .catch(error => {
