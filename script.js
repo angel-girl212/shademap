@@ -69,44 +69,20 @@ function add(e) {
 
     const geometry = feature.geometry;
 
-    if (geometry.type === "Polygon") {
-      try {
-        return turf.booleanPointInPolygon(clickPoint, feature);
-      } catch (err) {
-        console.error("Error checking Polygon:", err, feature);
-        return false;
-      }
+    let coords = geometry.coordinates;
+    if (
+      coords.length > 2 &&
+      (coords[0][0] !== coords[coords.length - 1][0] ||
+        coords[0][1] !== coords[coords.length - 1][1])
+    ) {
+      coords = [...coords, coords[0]];
     }
-
-    if (geometry.type === "MultiPolygon") {
-      return geometry.coordinates.some(polygonCoords => {
-        try {
-          const polyFeature = turf.polygon(polygonCoords);
-          return turf.booleanPointInPolygon(clickPoint, polyFeature);
-        } catch (err) {
-          console.error("Invalid MultiPolygon segment:", polygonCoords, err);
-          return false;
-        }
-      });
-    }
-
-    if (geometry.type === "LineString") {
-      // Convert LineString to Polygon (close ring if needed)
-      let coords = geometry.coordinates;
-      if (
-        coords.length > 2 &&
-        (coords[0][0] !== coords[coords.length - 1][0] ||
-          coords[0][1] !== coords[coords.length - 1][1])
-      ) {
-        coords = [...coords, coords[0]];
-      }
-      try {
-        const poly = turf.polygon([coords]);
-        return turf.booleanPointInPolygon(clickPoint, poly);
-      } catch (err) {
-        console.error("Error checking LineString converted to Polygon:", err);
-        return false;
-      }
+    try {
+      const poly = turf.polygon([coords]);
+      return turf.booleanPointInPolygon(clickPoint, poly);
+    } catch (err) {
+      console.error("Error checking LineString converted to Polygon:", err);
+      return false;
     }
 
     // Add other geometry types if needed
