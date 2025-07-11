@@ -129,13 +129,13 @@ function sendToForm(e, markerName, description, timeday) {
   const lat = e.latlng.lat.toFixed(5);
   const lng = e.latlng.lng.toFixed(5);
 
-  const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
+  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
-  formData.append("entry.901935268", lat);
-  formData.append("entry.1956546171", lng);
-  formData.append("entry.1519028228", markerName);
-  formData.append("entry.772410688", description);
-  formData.append("entry.242720066", timeday);
+  formData.append("entry.1103269963", lat);
+  formData.append("entry.122135591", lng);
+  formData.append("entry.2085927347", markerName);
+  formData.append("entry.656970841", description);
+  formData.append("entry.635360372", timeday);
 
   fetch(formUrl, {
     method: "POST",
