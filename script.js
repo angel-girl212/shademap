@@ -46,7 +46,10 @@ fetch('toronto_bound.json')
         color: "#ffd300",
         weight: 4,
         fillOpacity: 0
-      }
+      },
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup("Toronto Regional Boundary");
+      } 
     }).addTo(map);
   })
   .catch(error => {
