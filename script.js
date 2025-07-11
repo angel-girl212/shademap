@@ -1,103 +1,143 @@
 const map = L.map('map').setView([43.637869, -79.406311], 13);
-
-const street =L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const street = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(map);
 
 const satellite = L.tileLayer(
-    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    { attribution: '© Esri' }
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  { attribution: '© Esri' }
 );
 
-//    const heatLayer = L.tileLayer(
-//      'https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=b093a4af9795adc8f1ae5f20076873b3',
-//      {
-//        attribution: '© OpenWeatherMap',
-//        opacity: 0.95
-//      }
-//    );
+let currentBase = 'street';
 
-  let currentBase = 'street';
-  // let heatVisible = false;
-
-  function setBaseLayer(name) {
-    map.removeLayer(street);
-    map.removeLayer(satellite);
-    if (name === 'street') {
-      street.addTo(map);
-      currentBase = 'street';
-    } else {
-      satellite.addTo(map);
-      currentBase = 'satellite';
-    }
+function setBaseLayer(name) {
+  map.removeLayer(street);
+  map.removeLayer(satellite);
+  if (name === 'street') {
+    street.addTo(map);
+    currentBase = 'street';
+  } else {
+    satellite.addTo(map);
+    currentBase = 'satellite';
   }
+}
+
+let boundaryLayer;
 
 L.Control.geocoder({
   defaultMarkGeocode: false,
   position: 'topright'
 })
-.on('markgeocode', e => {
-  const latlng = e.geocode.center;
+  .on('markgeocode', e => {
+    const latlng = e.geocode.center;
+    map.setView(latlng, 16);
+  })
+  .addTo(map);
 
-  map.setView(latlng, 16);
-
-  const markerName = prompt(`You clicked a spot at ${latlng.lat.toFixed(5)} and ${latlng.lng.toFixed(5)}. Add a name to submit`);
-  
-  if (markerName) {
-    const description = prompt(`Describe your shady spot`); // lmfao
-    const marker = L.marker(latlng).addTo(map);
-    marker.bindPopup(`<b>${markerName}</b><br>${latlng.toString()}`).openPopup();
-    sendToForm({ latlng }, markerName, description);
-  }
-})
-.addTo(map);
+fetch('toronto_bound.json')
+  .then(response => {
+    if (!response.ok) throw new Error('Network response error');
+    return response.json();
+  })
+  .then(data => {
+    boundaryLayer = L.geoJSON(data, {
+      style: {
+        color: "#000000",
+        weight: 2,
+        fillOpacity: 0.1
+      }
+    }).addTo(map);
+  })
+  .catch(error => {
+    console.error("Failed to load JSON:", error);
+  });
 
 var marker = L.marker([43.637869, -79.406311]).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
-// commented out but this should hold toronto regional boundary
-// var polygon = L.polygon([
-//  [43.632542, -79.422344],
-//  [43.632923, -79.423289],
-//  [43.632573, -79.424909],
-//  [43.635376, -79.426003]
-//  ]).addTo(map);
-
-// polygon.bindPopup("<b>Toronto Regional Boundary</b><br>source: open data portal");
-
 function add(e) {
+  if (!boundaryLayer) {
+    alert("Boundary not loaded yet.");
+    return;
+  }
+
+  const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
+
+  const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
+    if (!feature.geometry) return false;
+
+    const geometry = feature.geometry;
+
+    if (geometry.type === "Polygon") {
+      try {
+        return turf.booleanPointInPolygon(clickPoint, feature);
+      } catch (err) {
+        console.error("Error checking Polygon:", err, feature);
+        return false;
+      }
+    }
+
+    if (geometry.type === "MultiPolygon") {
+      return geometry.coordinates.some(polygonCoords => {
+        try {
+          const polyFeature = turf.polygon(polygonCoords);
+          return turf.booleanPointInPolygon(clickPoint, polyFeature);
+        } catch (err) {
+          console.error("Invalid MultiPolygon segment:", polygonCoords, err);
+          return false;
+        }
+      });
+    }
+
+    if (geometry.type === "LineString") {
+      // Convert LineString to Polygon (close ring if needed)
+      let coords = geometry.coordinates;
+      if (
+        coords.length > 2 &&
+        (coords[0][0] !== coords[coords.length - 1][0] ||
+          coords[0][1] !== coords[coords.length - 1][1])
+      ) {
+        coords = [...coords, coords[0]];
+      }
+      try {
+        const poly = turf.polygon([coords]);
+        return turf.booleanPointInPolygon(clickPoint, poly);
+      } catch (err) {
+        console.error("Error checking LineString converted to Polygon:", err);
+        return false;
+      }
+    }
+
+    // Add other geometry types if needed
+    return false;
+  });
+
+  if (!isInside) {
+    alert("Submission out of range. Please submit your shady spot within the Toronto Regional Boundary");
+    return;
+  }
+
   const markerName = prompt(`You clicked a spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. Add a name to submit`);
-  
   if (markerName) {
     const description = prompt(`Describe your shady spot`);
-    
-    const choice = prompt("What time do you benefit fromthis shady space:\n1. Morning\n2. Midday\n3. Evening \n4. Night", "");
+    const choice = prompt("What time do you benefit from this shady space:\n1. Morning\n2. Midday\n3. Evening\n4. Night", "");
 
-    let timeday = ""
+    let timeday = "";
     switch (choice) {
-      case "1":
-        timeday = "Morning";
-        break;
-      case "2":
-        timeday = "Midday";
-        break;
-      case "3":
-        timeday = "Evening";
-        break;
-      case "4":
-        timeday = "Night";
-        break;
+      case "1": timeday = "Morning"; break;
+      case "2": timeday = "Midday"; break;
+      case "3": timeday = "Evening"; break;
+      case "4": timeday = "Night"; break;
       default:
-        alert("invalid input");
+        alert("Invalid input");
         return;
-}
-    
+    }
+
     const marker = L.marker(e.latlng).addTo(map);
     marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
     sendToForm(e, markerName, description, timeday);
- }
+  }
 }
 
 function sendToForm(e, markerName, description, timeday) {
@@ -106,7 +146,7 @@ function sendToForm(e, markerName, description, timeday) {
 
   const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
   const formData = new URLSearchParams();
-  formData.append("entry.901935268", lat);     
+  formData.append("entry.901935268", lat);
   formData.append("entry.1956546171", lng);
   formData.append("entry.1519028228", markerName);
   formData.append("entry.772410688", description);
@@ -119,4 +159,4 @@ function sendToForm(e, markerName, description, timeday) {
   }).catch(err => console.error("Error:", err));
 }
 
-map.addEventListener('click', add);
+map.on('click', add);
