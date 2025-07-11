@@ -114,17 +114,33 @@
 
         const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
         const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
-          // Skip features with no geometry
           if (!feature.geometry) return false;
         
-          try {
-            return turf.booleanPointInPolygon(clickPoint, feature);
-          } catch (err) {
-            console.error("Invalid feature:", feature, err);
-            return false;
+          const geometry = feature.geometry;
+        
+          if (geometry.type === "Polygon") {
+            try {
+              return turf.booleanPointInPolygon(clickPoint, feature);
+            } catch (err) {
+              console.error("Error checking Polygon:", err, feature);
+              return false;
+            }
           }
-        });
+        
+          if (geometry.type === "MultiPolygon") {
+            return geometry.coordinates.some(polygonCoords => {
+              try {
+                const polyFeature = turf.polygon(polygonCoords);
+                return turf.booleanPointInPolygon(clickPoint, polyFeature);
+              } catch (err) {
+                console.error("Invalid MultiPolygon segment:", polygonCoords, err);
+                return false;
+              }
+            });
+          }
 
+  return false;
+});
         if (!isInside) {
           alert("Submission out of range. Please submit your shady spot within the Toronto Regional Boundary");
           return;
