@@ -9,7 +9,7 @@ const satellite = L.tileLayer(
   { attribution: '© Esri' }
 );
 
-let currentBase = 'street';
+let currentBase = 'satellite';
 
 function setBaseLayer(name) {
   map.removeLayer(street);
