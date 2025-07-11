@@ -91,6 +91,12 @@
         }
       })
       .addTo(map);
+
+      fetch('toronto_bound.geojson')
+        .then(response => response.json())
+        .then(data => {
+          L.geoJSON(data).addTo(map);
+      });
       
       var marker = L.marker([43.637869, -79.406311]).addTo(map);
       marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
