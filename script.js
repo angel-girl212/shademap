@@ -49,7 +49,8 @@ fetch('toronto_bound.json')
       style: {
         color: "#ffd300",
         weight: 4,
-        fillOpacity: 0
+        fillOpacity: 0,
+        dashArray: '6, 6'
       },
       onEachFeature: function (feature, layer) {
         layer.bindPopup("Toronto Regional Boundary");
