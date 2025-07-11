@@ -10,6 +10,7 @@ const satellite = L.tileLayer(
 );
 
 let currentBase = 'satellite';
+satellite.addTo(map);
 
 function setBaseLayer(name) {
   map.removeLayer(street);
