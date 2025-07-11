@@ -132,50 +132,47 @@
           return;
         }
 
-        else {
-          const markerName = prompt(`You clicked a spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. Add a name to submit`);
-        
-          if (markerName) {
-            const description = prompt(`Describe your shady spot`);
-            
-            const choice = prompt("What time do you benefit fromthis shady space:\n1. Morning\n2. Midday\n3. Evening \n4. Night", "");
-        
-            let timeday = ""
-            switch (choice) {
-              case "1": timeday = "Morning"; break;
-              case "2": timeday = "Midday"; break;
-              case "3": timeday = "Evening"; break;
-              case "4": timeday = "Night"; break;
-              default: 
-              alert("invalid input"); 
+        const markerName = prompt(`You clicked a spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. Add a name to submit`);
+        if (markerName) {
+          const description = prompt(`Describe your shady spot`);
+          const choice = prompt("What time do you benefit from this shady space:\n1. Morning\n2. Midday\n3. Evening\n4. Night", "");
+
+          let timeday = "";
+          switch (choice) {
+            case "1": timeday = "Morning"; break;
+            case "2": timeday = "Midday"; break;
+            case "3": timeday = "Evening"; break;
+            case "4": timeday = "Night"; break;
+            default:
+              alert("Invalid input");
               return;
           }
-            
-            const marker = L.marker(e.latlng).addTo(map);
-            marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
-            sendToForm(e, markerName, description, timeday);
-          }
-        
-        function sendToForm(e, markerName, description, timeday) {
-          const lat = e.latlng.lat.toFixed(5);
-          const lng = e.latlng.lng.toFixed(5);
-        
-          const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
-          const formData = new URLSearchParams();
-          formData.append("entry.901935268", lat);     
-          formData.append("entry.1956546171", lng);
-          formData.append("entry.1519028228", markerName);
-          formData.append("entry.772410688", description);
-          formData.append("entry.242720066", timeday);
-        
-          fetch(formUrl, {
-            method: "POST",
-            mode: "no-cors",
-            body: formData
-          }).catch(err => console.error("Error:", err));
-        }
 
+          const marker = L.marker(e.latlng).addTo(map);
+          marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
+          sendToForm(e, markerName, description, timeday);
         }
+      }
+
+        
+      function sendToForm(e, markerName, description, timeday) {
+        const lat = e.latlng.lat.toFixed(5);
+        const lng = e.latlng.lng.toFixed(5);
+
+        const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfNV5ldiWUsR3nYRD35-_m2W4TSuUuijP3L55uOLdtPwqC2AQ/formResponse";
+        const formData = new URLSearchParams();
+        formData.append("entry.901935268", lat);     
+        formData.append("entry.1956546171", lng);
+        formData.append("entry.1519028228", markerName);
+        formData.append("entry.772410688", description);
+        formData.append("entry.242720066", timeday);
+
+        fetch(formUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        }).catch(err => console.error("Error:", err));
+      }
       
       map.addEventListener('click', add);
     </script>
