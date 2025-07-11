@@ -120,7 +120,7 @@ function add(e) {
     }
 
     const marker = L.marker(e.latlng, {icon: goldIcon}).addTo(map);
-    marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.toString()}`).openPopup();
+    marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.lat}, ${e.latlng.lng}`).openPopup();
     sendToForm(e, markerName, description, timeday);
   }
 }
