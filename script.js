@@ -43,9 +43,9 @@ fetch('toronto_bound.json')
   .then(data => {
     boundaryLayer = L.geoJSON(data, {
       style: {
-        color: "#000000",
-        weight: 2,
-        fillOpacity: 0.1
+        color: "#ffd300",
+        weight: 4,
+        fillOpacity: 0
       }
     }).addTo(map);
   })
