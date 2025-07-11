@@ -114,7 +114,15 @@
 
         const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
         const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
-          return turf.booleanPointInPolygon(clickPoint, feature);
+          // Skip features with no geometry
+          if (!feature.geometry) return false;
+        
+          try {
+            return turf.booleanPointInPolygon(clickPoint, feature);
+          } catch (err) {
+            console.error("Invalid feature:", feature, err);
+            return false;
+          }
         });
 
         if (!isInside) {
