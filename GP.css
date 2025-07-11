@@ -1,0 +1,37 @@
+
+body, html,
+.leaflet-popup-content {
+  font-family: 'TBW Galeria', sans-serif;
+}
+
+
+#map {
+  height: 100vh;
+  width: 100vw;
+}
+
+#layer-buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#layer-buttons button {
+  margin: 2px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  background: #eee;
+  cursor: pointer;
+}
+
+#layer-buttons button:hover {
+  background: #ccc;
+}
+
