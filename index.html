@@ -81,17 +81,7 @@
       })
       .on('markgeocode', e => {
         const latlng = e.geocode.center;
-      
         map.setView(latlng, 16);
-      
-        const markerName = prompt(`You clicked a spot at ${latlng.lat.toFixed(5)} and ${latlng.lng.toFixed(5)}. Add a name to submit`);
-        
-        if (markerName) {
-          const description = prompt(`Describe your shady spot`); // lmfao
-          const marker = L.marker(latlng).addTo(map);
-          marker.bindPopup(`<b>${markerName}</b><br>${latlng.toString()}`).openPopup();
-          sendToForm({ latlng }, markerName, description);
-        }
       })
       .addTo(map);
 
