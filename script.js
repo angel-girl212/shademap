@@ -106,9 +106,16 @@ function add(e) {
     }
   });
 
+  const popupAlert = `
+    <div style="width:250px">
+        <h4>Submission out of range. Please submit your shady spot within the Toronto Regional Boundary.</h4>
+    </div>
+  `;
+
   if (!isInside) {
-    alert("Submission out of range. Please submit your shady spot within the Toronto Regional Boundary");
-    return;
+    L.popup()
+      .setContent(popupAlert)
+      .openOn(map);
   }
 
   const popupForm = `
