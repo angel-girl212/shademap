@@ -89,22 +89,6 @@ function add(e) {
     } else if (feature.geometry.type === "MultiPolygon") {
       coords = coords[0][0]; // First polygon, first ring
     }
-
-    if (
-      coords.length > 2 &&
-      (coords[0][0] !== coords[coords.length - 1][0] ||
-        coords[0][1] !== coords[coords.length - 1][1])
-    ) {
-      coords = [...coords, coords[0]];
-    }
-
-    try {
-      const poly = turf.polygon([coords]);
-      return turf.booleanPointInPolygon(clickPoint, poly);
-    } catch (err) {
-      console.error("Error checking geometry:", err);
-      return false;
-    }
   });
 
   if (!isInside) {
@@ -112,32 +96,47 @@ function add(e) {
     return;
   }
 
-  const markerName = prompt(`You clicked a spot at ${e.latlng.lat.toFixed(5)} and ${e.latlng.lng.toFixed(5)}. Add a name to submit`);
-  if (markerName) {
-    const description = prompt(`Describe your shady spot`);
-    const choice = prompt("What time do you benefit from this shady space:\n1. Morning\n2. Midday\n3. Evening\n4. Night", "");
-
-    let timeday = "";
-    switch (choice) {
-      case "1": timeday = "Morning"; break;
-      case "2": timeday = "Midday"; break;
-      case "3": timeday = "Evening"; break;
-      case "4": timeday = "Night"; break;
-      default:
-        alert("Invalid input");
-        return;
-    }
-
-    const marker = L.marker(e.latlng, {icon: goldIcon}).addTo(map);
-    marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`).openPopup();
-    sendToForm(e, markerName, description, timeday);
-  }
+  const popupForm = `
+    <div style="width:250px">
+        <strong>Submit a Shady Spot</strong><br><br>
+        <label>Name:<br>
+          <input id="spot-name" type="text" style="width:100%">
+        </label><br><br>
+        <label>Description:<br>
+          <textarea id="spot-desc" style="width:100%" rows="2"></textarea>
+        </label><br><br>
+        <label>Best time:<br>
+          <select id="spot-time" style="width:100%">
+            <option value="">Select...</option>
+            <option value="Morning">Morning</option>
+            <option value="Midday">Midday</option>
+            <option value="Evening">Evening</option>
+            <option value="Night">Night</option>
+          </select>
+        </label><br><br>
+        <button onclick="submitShadySpot(${e.latlng.lat}, ${e.latlng.lng})">Submit</button>
+      </div>
+    `;
+  
+  L.popup()
+    .setLatLng(e.latlng)
+    .setContent(popupForm)
+    .openOn(map);
 }
 
-function sendToForm(e, markerName, description, timeday) {
-  const lat = e.latlng.lat.toFixed(5);
-  const lng = e.latlng.lng.toFixed(5);
+function submitShadySpot(lat, lng) {
+  const name = document.getElementById("spot-name").value.trim();
+  const desc = document.getElementById("spot-desc").value.trim();
+  const time = document.getElementById("spot-time").value;
 
+  const marker = L.marker(e.latlng, {icon: goldIcon}).addTo(map);
+  marker.bindPopup(`<b>${markerName}</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`).openPopup();
+
+  sendToForm(lat, lng, name, desc, time);
+  map.closePopup();
+}  
+
+function sendToForm(e, markerName, description, timeday) {
   const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.1103269963", lat);
