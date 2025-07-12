@@ -128,7 +128,7 @@ function add(e) {
         <label>Description:<br>
           <textarea id="spot-desc" style="width:100%" rows="2"></textarea>
         </label><br><br>
-        <label>Best time:<br>
+        <label>Best time to visit:<br>
           <select id="spot-time" style="width:100%">
             <option value="">Select...</option>
             <option value="Morning">Morning</option>
