@@ -1,39 +1,23 @@
-const map = L.map('map').setView([43.637869, -79.406311], 13);
-const street = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-});
-
 const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { 
+  maxZoom: 25,
   attribution: '© Esri' 
 });
 
-let currentBase = 'satellite';
-satellite.addTo(map);
+const street = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 25,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+});
 
-function setBaseLayer(name) {
-  map.removeLayer(street);
-  map.removeLayer(satellite);
-  if (name === 'street') {
-    street.addTo(map);
-    currentBase = 'street';
-  } else {
-    satellite.addTo(map);
-    currentBase = 'satellite';
-  }
-}
+const map = L.map('map', {
+  center: [43.637869, -79.406311],
+  zoom: 13,
+  layers: [street, satellite]
+});
 
-let boundaryLayer;
-
-L.Control.geocoder({
-  defaultMarkGeocode: false,
-  position: 'topright'
-})
-  .on('markgeocode', e => {
-    const latlng = e.geocode.center;
-    map.setView(latlng, 16);
-  })
-  .addTo(map);
+const baseMaps = {
+  'Street View': street,
+  'Satellite View': satellite
+};   
 
 map.createPane('topPane');
 map.getPane('topPane').style.zIndex = 650;
@@ -61,6 +45,16 @@ fetch('toronto_bound.json')
     console.error("Failed to load JSON:", error);
   });
 
+L.Control.geocoder({
+  defaultMarkGeocode: false,
+  position: 'topright'
+})
+  .on('markgeocode', e => {
+    const latlng = e.geocode.center;
+    map.setView(latlng, 16);
+  })
+  .addTo(map);
+
 const goldIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -73,38 +67,33 @@ const goldIcon = new L.Icon({
 const marker = L.marker([43.637869, -79.406311], {icon: goldIcon}).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
-function add(e) {
-  if (!boundaryLayer) {
-    alert("Boundary not loaded yet.");
-    return;
+const layerControl = L.control.layers(baseMaps).addTo(map);
+
+const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
+
+const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
+  if (!feature.geometry) return false;
+
+  const geometry = feature.geometry;
+
+  let coords = geometry.coordinates;
+  if (
+    coords.length > 2 &&
+    (coords[0][0] !== coords[coords.length - 1][0] ||
+      coords[0][1] !== coords[coords.length - 1][1])
+  ) {
+    coords = [...coords, coords[0]];
+  }
+  try {
+    const poly = turf.polygon([coords]);
+    return turf.booleanPointInPolygon(clickPoint, poly);
+  } catch (err) {
+    console.error("Error checking LineString converted to Polygon:", err);
+    return false;
   }
 
-  const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
-
-  const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
-    if (!feature.geometry) return false;
-
-    const geometry = feature.geometry;
-
-    let coords = geometry.coordinates;
-    if (
-      coords.length > 2 &&
-      (coords[0][0] !== coords[coords.length - 1][0] ||
-        coords[0][1] !== coords[coords.length - 1][1])
-    ) {
-      coords = [...coords, coords[0]];
-    }
-    try {
-      const poly = turf.polygon([coords]);
-      return turf.booleanPointInPolygon(clickPoint, poly);
-    } catch (err) {
-      console.error("Error checking LineString converted to Polygon:", err);
-      return false;
-    }
-
-    // Add other geometry types if needed
-    return false;
-  });
+  return false;
+});
 
   if (!isInside) {
     alert("Submission out of range. Please submit your shady spot within the Toronto Regional Boundary");
