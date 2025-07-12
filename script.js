@@ -47,16 +47,6 @@ fetch('toronto_bound.json')
     console.error("Failed to load JSON:", error);
   });
 
-L.Control.geocoder({
-  defaultMarkGeocode: false,
-  position: 'topright'
-})
-.on('markgeocode', e => {
-  const latlng = e.geocode.center;
-  map.setView(latlng, 16);
-})
-.addTo(map);
-
 const goldIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -70,6 +60,16 @@ const marker = L.marker([43.637869, -79.406311], {icon: goldIcon}).addTo(map);
 marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
 const layerControl = L.control.layers(baseMaps).addTo(map);
+
+L.Control.geocoder({
+  defaultMarkGeocode: false,
+  position: 'topleft'
+})
+.on('markgeocode', e => {
+  const latlng = e.geocode.center;
+  map.setView(latlng, 16);
+})
+.addTo(map);
 
 function add(e) {
   if (!boundaryLayer) {
