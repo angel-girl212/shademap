@@ -116,7 +116,7 @@ function add(e) {
       .setLatLng(e.latlng)
       .setContent(popupAlert)
       .openOn(map);
-    return();
+    return;
   }
 
   const popupForm = `
