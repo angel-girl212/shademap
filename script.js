@@ -22,6 +22,8 @@ const baseMaps = {
 map.createPane('topPane');
 map.getPane('topPane').style.zIndex = 650;
 
+let boundaryLayer;
+
 fetch('toronto_bound.json')
   .then(response => {
     if (!response.ok) throw new Error('Network response error');
@@ -49,11 +51,11 @@ L.Control.geocoder({
   defaultMarkGeocode: false,
   position: 'topright'
 })
-  .on('markgeocode', e => {
-    const latlng = e.geocode.center;
-    map.setView(latlng, 16);
-  })
-  .addTo(map);
+.on('markgeocode', e => {
+  const latlng = e.geocode.center;
+  map.setView(latlng, 16);
+})
+.addTo(map);
 
 const goldIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
@@ -69,31 +71,41 @@ marker.bindPopup("<b>The Bentway</b><br>250 Fort York").openPopup();
 
 const layerControl = L.control.layers(baseMaps).addTo(map);
 
-const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
-
-const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
-  if (!feature.geometry) return false;
-
-  const geometry = feature.geometry;
-
-  let coords = geometry.coordinates;
-  if (
-    coords.length > 2 &&
-    (coords[0][0] !== coords[coords.length - 1][0] ||
-      coords[0][1] !== coords[coords.length - 1][1])
-  ) {
-    coords = [...coords, coords[0]];
-  }
-  try {
-    const poly = turf.polygon([coords]);
-    return turf.booleanPointInPolygon(clickPoint, poly);
-  } catch (err) {
-    console.error("Error checking LineString converted to Polygon:", err);
-    return false;
+function add(e) {
+  if (!boundaryLayer) {
+    alert("Boundary data not yet loaded. Please try again in a moment.");
+    return;
   }
 
-  return false;
-});
+  const clickPoint = turf.point([e.latlng.lng, e.latlng.lat]);
+
+  const isInside = boundaryLayer.toGeoJSON().features.some(feature => {
+    if (!feature.geometry) return false;
+
+    let coords = feature.geometry.coordinates;
+
+    if (feature.geometry.type === "Polygon") {
+      coords = coords[0];
+    } else if (feature.geometry.type === "MultiPolygon") {
+      coords = coords[0][0]; // First polygon, first ring
+    }
+
+    if (
+      coords.length > 2 &&
+      (coords[0][0] !== coords[coords.length - 1][0] ||
+        coords[0][1] !== coords[coords.length - 1][1])
+    ) {
+      coords = [...coords, coords[0]];
+    }
+
+    try {
+      const poly = turf.polygon([coords]);
+      return turf.booleanPointInPolygon(clickPoint, poly);
+    } catch (err) {
+      console.error("Error checking geometry:", err);
+      return false;
+    }
+  });
 
   if (!isInside) {
     alert("Submission out of range. Please submit your shady spot within the Toronto Regional Boundary");
