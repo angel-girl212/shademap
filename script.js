@@ -106,16 +106,17 @@ function add(e) {
     }
   });
 
-  const popupAlert = `
-    <div style="width:250px">
-        <h4>Submission out of range. Please submit your shady spot within the Toronto Regional Boundary.</h4>
-    </div>
-  `;
-
   if (!isInside) {
+      const popupAlert = `
+        <div style="width:250px">
+            <h4>Submission out of range. Please submit your shady spot within the Toronto Regional Boundary.</h4>
+        </div>
+    `;
     L.popup()
+      .setLatLng(e.latlng)
       .setContent(popupAlert)
       .openOn(map);
+    return();
   }
 
   const popupForm = `
