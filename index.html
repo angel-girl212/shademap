@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="GP.css" />
-
     <style>
       #layer-buttons button:hover { background: #ccc; }
       .leaflet-popup-content { font: 14px sans-serif; }
@@ -20,11 +19,6 @@
   </head>
   <body>
     <div id="map"></div>
-    <div id="layer-buttons">
-        <button onclick="setBaseLayer('street')">Street View</button>
-        <button onclick="setBaseLayer('satellite')">Satellite View</button>
-      <!--   <button onclick="toggleHeat()"> Heat Map</button> -->
-    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
