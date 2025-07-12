@@ -89,6 +89,21 @@ function add(e) {
     } else if (feature.geometry.type === "MultiPolygon") {
       coords = coords[0][0]; // First polygon, first ring
     }
+    if (
+      coords.length > 2 &&
+      (coords[0][0] !== coords[coords.length - 1][0] ||
+       coords[0][1] !== coords[coords.length - 1][1])
+    ) {
+      coords = [...coords, coords[0]];
+    }
+
+    try {
+      const poly = turf.polygon([coords]);
+      return turf.booleanPointInPolygon(clickPoint, poly);
+    } catch (err) {
+      console.error("Error checking geometry:", err);
+      return false;
+    }
   });
 
   if (!isInside) {
