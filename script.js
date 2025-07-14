@@ -132,7 +132,7 @@ function add(e) {
           <select id="spot-time" style="width:100%">
             <option value="">Select...</option>
             <option value="Morning">Morning</option>
-            <option value="Midday">Midday</option>
+            <option value="Afternoon">Afternoon</option>
             <option value="Evening">Evening</option>
             <option value="Night">Night</option>
           </select>
