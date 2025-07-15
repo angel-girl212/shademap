@@ -1,10 +1,10 @@
 const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { 
-  maxZoom: 25,
+  maxZoom: 50,
   attribution: '© Esri' 
 });
 
 const street = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 25,
+  maxZoom: 50,
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 });
 
