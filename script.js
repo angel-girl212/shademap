@@ -109,7 +109,7 @@ function add(e) {
   if (!isInside) {
     const popupAlert = `
       <div style="width:250px">
-          <h4>Submission out of range. Please submit your shady spot within the Toronto Regional Boundary.</h4>
+          <h4>Submission out of range. Please submit your cool spot within the Toronto Regional Boundary.</h4>
       </div>
     `;
     L.popup()
@@ -121,14 +121,14 @@ function add(e) {
 
   const popupForm = `
     <div style="width:250px">
-        <strong>Submit a Shady Spot</strong><br><br>
-        <label>Name:<br>
+        <strong>Submit a Cool Spot</strong><br><br>
+        <label>Give your spot a name:<br>
           <input id="spot-name" type="text" style="width:100%">
         </label><br><br>
-        <label>Description:<br>
+        <label>Describe your spot:<br>
           <textarea id="spot-desc" style="width:100%" rows="2"></textarea>
         </label><br><br>
-        <label>Best time to visit:<br>
+        <label>When is the time to visit:<br>
           <select id="spot-time" style="width:100%">
             <option value="">Select...</option>
             <option value="Morning">Morning</option>
