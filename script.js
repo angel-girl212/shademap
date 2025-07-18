@@ -219,7 +219,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
               <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
               <div style="display: inline-flex; align-items: center; gap: 8px;">
                 <img 
-                  src="thumbs_up.PNG" 
+                  src="photos/thumbs_up.PNG" 
                   width="50" 
                   height="50"
                   style="cursor: pointer; border: 1px solid #000;" 
@@ -247,7 +247,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
                 const objectID = popupDiv.dataset.objectid || 'unknown';
                 const upvote = 1;
 
-                upvoteBtn.src = "check.png";
+                upvoteBtn.src = "photos/check.png";
                 upvoteBtn.style.cursor = "default";
                 upvoteBtn.style.border = "1px solid #0a0";
                 upvoteBtn.title = "Upvoted!";
