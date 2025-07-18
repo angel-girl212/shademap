@@ -225,7 +225,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
                   style="cursor: pointer; border: 1px solid #000;" 
                   alt="Upvote"
                 />
-                <p style="margin: 2; font-size: 50px; color: #000;">Click to upvote!</p>
+                <p style="margin: 2; font-size: 20px; color: #000;">Click to upvote!</p>
               </div>
             </div>
           </div>
