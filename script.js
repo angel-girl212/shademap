@@ -175,7 +175,7 @@ function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote
   formData.append("entry.656970841", description);
   formData.append("entry.635360372", timeday);
   formData.append("entry.2124929015", objectID);
-  formData.append("entry.941386436", upvote);
+  formData.append("entry.941386436", String(upvote));
 
   fetch(formUrl, {
     method: "POST",
