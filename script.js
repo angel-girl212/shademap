@@ -218,7 +218,6 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
               <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
               <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
               <div style="display: inline-flex; align-items: center; gap: 8px;">
-              <p style="margin: 2; font-size: 20px, color: #000;">Click to upvote!:</p>
                 <img 
                   src="thumbsup.PNG" 
                   width="50" 
@@ -226,6 +225,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
                   style="cursor: pointer; border: 1px solid #000;" 
                   alt="Upvote"
                 />
+                <p style="margin: 2; font-size: 50px; color: #000;">Click to upvote!</p>
               </div>
             </div>
           </div>
