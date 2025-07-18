@@ -196,7 +196,6 @@ const greyIcon = new L.Icon({
   iconAnchor: [12, 41], 
   popupAnchor: [1, -34], 
   shadowSize: [41, 41]
-  // opacity?
 });
 
 // Load and parse already submitted markers CSV
@@ -210,22 +209,75 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
       .filter(r => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
       .forEach(r => {
         const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon, opacity: 0.5 }).addTo(map);
-        const defaultPopup = `<b>${r.name||'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
+        
+        const defaultPopup = `<b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
         
         const detailedPopup = `
-          <div style="width: 300px;">
-            <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
-            <p>${r.description || ''}</p>
-            <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
-            <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
-            <p>Upvote: <click and send image>  upvotes. [goes up by 1]</p>
-            <p>Comment: <send a comment></p>
+          <div class="popup-content" data-objectid="${r.objectID || 'unknown'}" data-name="${r.name}">
+            <div style="width: 300px;">
+              <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
+              <p>${r.description || ''}</p>
+              <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
+              <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
+              <p>Upvote:</p>
+              <img
+                src="photos/thumbsup.PNG"
+                style="cursor: pointer; width: 24px;"
+                alt="Upvote"
+              />  
+              <b><label>Add a comment:<br>
+                <input id="spot-comment" type="text" style="width:100%">
+              </label></b>
+            </div>
+          </div>
         `;
-        
+
         marker.bindPopup(defaultPopup);
-        marker.on('dblclick', () => marker.getPopup().setContent(detailedPopup).openOn(map));
+
+        marker.on('dblclick', () => {
+          marker.getPopup().setContent(detailedPopup).openOn(map);
+
+          setTimeout(() => {
+            const popupDiv = document.querySelector('.popup-content');
+            if (!popupDiv) return;
+
+            const upvoteBtn = popupDiv.querySelector('img');
+            const commentInput = popupDiv.querySelector('#spot-comment');
+
+            if (upvoteBtn) {
+              upvoteBtn.addEventListener('click', () => {
+                const objectID = popupDiv.dataset.objectid || 'unknown';
+                const name = popupDiv.dataset.name || 'unnamed';
+                const comment = commentInput.value.trim();
+                const upvote = 1;
+
+                sendToForm(objectID, name, upvote, comment);
+              });
+            }
+          }, 100); // wait for popup DOM to render
+        });
+
         marker.on('popupclose', () => marker.getPopup().setContent(defaultPopup));
       });
-  },    
-  error: err => { console.error(err); alert('Failed to load markers.'); }
-});  
+  },
+  error: err => {
+    console.error(err);
+    alert('Failed to load markers.');
+  }
+});
+
+// Moved outside loop
+function sendToForm(objectID, name, upvote, comment) {
+  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScX-UiKwpe_MIlSi1wGz5HPwISmZ5AqmfkAWJcLDsxyT5sHOg/formResponse";
+  const formData = new URLSearchParams();
+  formData.append("entry.1719527082", objectID);
+  formData.append("entry.1293427374", name);
+  formData.append("entry.890823714", upvote);
+  formData.append("entry.1436803783", comment);
+
+  fetch(formUrl, {
+    method: "POST",
+    mode: "no-cors",
+    body: formData
+  }).catch(err => console.error("Error:", err));
+}   
