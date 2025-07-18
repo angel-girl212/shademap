@@ -219,7 +219,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
               <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
               <div style="display: inline-flex; align-items: center; gap: 8px;">
                 <img 
-                  src="thumbsup.PNG" 
+                  src="thumbs_up.PNG" 
                   width="50" 
                   height="50"
                   style="cursor: pointer; border: 1px solid #000;" 
