@@ -247,9 +247,9 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
                 const objectID = popupDiv.dataset.objectid || 'unknown';
                 const upvote = 1;
 
-                upvoteBtn.src = "photos/check.png";
-                upvoteBtn.style.cursor = "default";
-                upvoteBtn.style.border = "1px solid #0a0";
+                upvoteBtn.src = "photos/check.PNG";
+                upvoteBtn.style.cursor = "pointer";
+                upvoteBtn.style.border = "1px solid #000";
                 upvoteBtn.title = "Upvoted!";
 
                 sendToForm(objectID, upvote);
