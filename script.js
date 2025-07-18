@@ -152,8 +152,7 @@ function submitShadySpot(lat, lng) {
   const desc = document.getElementById("spot-desc").value.trim();
   const time = document.getElementById("spot-time").value;
   const objectID = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-  const upvote = 1;
-  const comment = '';
+  const upvote = 1; // each submission automatically upvoted once
 
   if (!name || !desc || !time) {
     alert("Please fill out all fields.");
@@ -163,11 +162,11 @@ function submitShadySpot(lat, lng) {
   const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
   marker.bindPopup(`<b>${name}</b><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`).openPopup();
 
-  sendToForm(lat, lng, name, desc, time, objectID, upvote, comment);
+  sendToForm(lat, lng, name, desc, time, objectID, upvote);
   map.closePopup();
 }  
 
-function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote, comment) {
+function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote) {
   const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.1103269963", lat);
@@ -177,7 +176,6 @@ function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote
   formData.append("entry.635360372", timeday);
   formData.append("entry.2124929015", objectID);
   formData.append("entry.941386436", String(upvote));
-  formData.append("entry.2139332722", comment);
 
   fetch(formUrl, {
     method: "POST",
@@ -216,18 +214,10 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
           <div class="popup-content" data-objectid="${r.objectID || 'unknown'}" data-name="${r.name}">
             <div style="width: 300px;">
               <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
+              <img src="thumbsup.PNG" style="cursor: pointer; width: 24px;" alt="Upvote"/> <p>Upvote</p> 
               <p>${r.description || ''}</p>
               <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
               <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
-              <p>Upvote:</p>
-              <img
-                src="thumbsup.PNG"
-                style="cursor: pointer; width: 24px;"
-                alt="Upvote"
-              />  
-              <b><label>Add a comment:<br>
-                <input id="spot-comment" type="text" style="width:100%">
-              </label></b>
             </div>
           </div>
         `;
@@ -242,16 +232,14 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
             if (!popupDiv) return;
 
             const upvoteBtn = popupDiv.querySelector('img');
-            const commentInput = popupDiv.querySelector('#spot-comment');
 
             if (upvoteBtn) {
               upvoteBtn.addEventListener('click', () => {
                 const objectID = popupDiv.dataset.objectid || 'unknown';
                 const name = popupDiv.dataset.name || 'unnamed';
-                const comment = commentInput.value.trim();
                 const upvote = 1;
 
-                sendToForm(objectID, name, upvote, comment);
+                sendToForm(objectID, name, upvote);
               });
             }
           }, 100); // wait for popup DOM to render
@@ -273,7 +261,6 @@ function sendToForm(objectID, name, upvote, comment) {
   formData.append("entry.1719527082", objectID);
   formData.append("entry.1293427374", name);
   formData.append("entry.890823714", upvote);
-  formData.append("entry.1436803783", comment);
 
   fetch(formUrl, {
     method: "POST",
