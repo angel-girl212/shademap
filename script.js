@@ -206,7 +206,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
     results.data
       .filter(r => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
       .forEach(r => {
-        const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon, opacity: 0.5 }).addTo(map);
+        const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon, opacity: 0.75 }).addTo(map);
         
         const defaultPopup = `<b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
         
