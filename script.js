@@ -151,6 +151,7 @@ function submitShadySpot(lat, lng) {
   const name = document.getElementById("spot-name").value.trim();
   const desc = document.getElementById("spot-desc").value.trim();
   const time = document.getElementById("spot-time").value;
+  const objectID = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
 
   if (!name || !desc || !time) {
     alert("Please fill out all fields.");
@@ -167,7 +168,6 @@ function submitShadySpot(lat, lng) {
 function sendToForm(lat, lng, markerName, description, timeday, objectID) {
   const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
-  const objectID = Math.floor(Math.random() * 100000);
   formData.append("entry.1103269963", lat);
   formData.append("entry.122135591", lng);
   formData.append("entry.2085927347", markerName);
