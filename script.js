@@ -187,3 +187,41 @@ function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote
 }
 
 map.on('click', add);
+
+// Custom marker icon
+const greyIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
+});
+
+// Load and parse already submitted markers CSV
+Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9kaeUmBnutaETaCQgasAR-S6udJ-zlt2KazlgM5lL-kt5g4vE8X9_Jl3yb5hk/pub?output=csv', {
+  download: true,
+  header: true,
+  dynamicTyping: true,
+  skipEmptyLines: true,
+  complete: results => {
+    results.data
+      .filter(r => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
+      .forEach(r => {
+        const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon });
+        const defaultPopup = `<b>${r.name||'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
+        
+        const detailedPopup = `
+          <div style="width: 300px;">
+            <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
+            <p>${r.description || ''}</p>
+            <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
+            <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
+            <p>Upvote: <click and send image>  upvotes. [goes up by 1]</p>
+            <p>Comment: <send a comment></p>
+        `;
+        
+        marker.bindPopup(defaultPopup);
+        marker.on('dblclick', () => marker.getPopup().setContent(detailedPopup).openOn(map));
+        marker.on('popupclose', () => marker.getPopup().setContent(defaultPopup));
+      });
+  },    
+  error: err => { console.error(err); alert('Failed to load markers.'); }
+});  
