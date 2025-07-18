@@ -221,7 +221,7 @@ Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9k
               <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
               <p>Upvote:</p>
               <img
-                src="photos/thumbsup.PNG"
+                src="thumbsup.PNG"
                 style="cursor: pointer; width: 24px;"
                 alt="Upvote"
               />  
