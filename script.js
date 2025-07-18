@@ -153,6 +153,7 @@ function submitShadySpot(lat, lng) {
   const time = document.getElementById("spot-time").value;
   const objectID = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
   const upvote = 1;
+  const comment = '';
 
   if (!name || !desc || !time) {
     alert("Please fill out all fields.");
@@ -162,11 +163,11 @@ function submitShadySpot(lat, lng) {
   const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
   marker.bindPopup(`<b>${name}</b><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`).openPopup();
 
-  sendToForm(lat, lng, name, desc, time, objectID, upvote);
+  sendToForm(lat, lng, name, desc, time, objectID, upvote, comment);
   map.closePopup();
 }  
 
-function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote) {
+function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote, comment) {
   const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.1103269963", lat);
@@ -176,6 +177,7 @@ function sendToForm(lat, lng, markerName, description, timeday, objectID, upvote
   formData.append("entry.635360372", timeday);
   formData.append("entry.2124929015", objectID);
   formData.append("entry.941386436", String(upvote));
+  formData.append("entry.2139332722", comment);
 
   fetch(formUrl, {
     method: "POST",
