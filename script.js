@@ -149,8 +149,8 @@ function add(e) {
 
 function submitShadySpot(lat, lng) {
   const name = document.getElementById("spot-name").value.trim();
-  const desc = document.getElementById("spot-desc").value.trim();
-  const time = document.getElementById("spot-time").value;
+  const description = document.getElementById("spot-desc").value.trim();
+  const timeday = document.getElementById("spot-time").value;
   const objectID = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
   const upvote = 1; // each submission automatically upvoted once
 
