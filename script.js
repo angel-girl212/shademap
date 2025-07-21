@@ -152,7 +152,7 @@ function submitShadySpot(lat, lng) {
   const desc = document.getElementById("spot-desc").value.trim();
   const time = document.getElementById("spot-time").value;
   const objectID = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-  const upvote = 1; // each submission automatically upvoted once
+  // const upvote = 1; // each submission automatically upvoted once
 
   if (!name || !description || !timeday) {
     alert("Please fill out all fields.");
@@ -162,11 +162,11 @@ function submitShadySpot(lat, lng) {
   const marker = L.marker([lat, lng], { icon: goldIcon }).addTo(map);
   marker.bindPopup(`<b>${name}</b><br>${lat.toFixed(5)}, ${lng.toFixed(5)}`).openPopup();
 
-  sendToForm(lat, lng, name, description, timeday, objectID, upvote);
+  sendToForm(lat, lng, name, description, timeday, objectID);//, upvote);
   map.closePopup();
 }  
 
-function sendToForm(lat, lng, name, description, timeday, objectID, upvote) {
+function sendToForm(lat, lng, name, description, timeday, objectID) { //, upvote) {
   const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSeLNCRMgVfrD8zpB_4Vkr07lnyRmP09fHVtlWBpLwaEnCbnnw/formResponse";
   const formData = new URLSearchParams();
   formData.append("entry.1103269963", lat);
