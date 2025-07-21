@@ -175,7 +175,7 @@ function sendToForm(lat, lng, name, description, timeday, objectID, upvote) {
   formData.append("entry.656970841", description);
   formData.append("entry.635360372", timeday);
   formData.append("entry.2124929015", objectID);
-  formData.append("entry.941386436", String(upvote));
+  // formData.append("entry.941386436", String(upvote));
 
   fetch(formUrl, {
     method: "POST",
@@ -187,96 +187,95 @@ function sendToForm(lat, lng, name, description, timeday, objectID, upvote) {
 map.on('click', add);
 
 // Custom marker icon
-const greyIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41], 
-  iconAnchor: [12, 41], 
-  popupAnchor: [1, -34], 
-  shadowSize: [41, 41]
-});
+//const greyIcon = new L.Icon({
+//  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+//  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+//  iconSize: [25, 41], 
+//  iconAnchor: [12, 41], 
+//  popupAnchor: [1, -34], 
+//  shadowSize: [41, 41]
+//});
 
 // Load and parse already submitted markers CSV
-Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9kaeUmBnutaETaCQgasAR-S6udJ-zlt2KazlgM5lL-kt5g4vE8X9_Jl3yb5hk/pub?output=csv', {
-  download: true,
-  header: true,
-  dynamicTyping: true,
-  skipEmptyLines: true,
-  complete: results => {
-    results.data
-      .filter(r => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
-      .forEach(r => {
-        const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon, opacity: 0.75 }).addTo(map);
+// Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vTrYopwENfaG6flpsO9kaeUmBnutaETaCQgasAR-S6udJ-zlt2KazlgM5lL-kt5g4vE8X9_Jl3yb5hk/pub?output=csv', {
+//  download: true,
+//  header: true,
+//  dynamicTyping: true,
+//  skipEmptyLines: true,
+//  complete: results => {
+//    results.data
+//      .filter(r => Number.isFinite(r.latitude) && Number.isFinite(r.longitude))
+//      .forEach(r => {
+//        const marker = L.marker([r.latitude, r.longitude], { icon: greyIcon, opacity: 0.75 }).addTo(map);
         
-        const defaultPopup = `<b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
+//        const defaultPopup = `<b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}`;
         
-        const detailedPopup = `
-          <div class="popup-content" data-objectid="${r.objectID || 'unknown'}">
-            <div style="width: 300px;">
-              <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
-              <p>${r.description || ''}</p>
-              <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
-              <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
-              <div style="display: inline-flex; align-items: center; gap: 8px;">
-                <img 
-                  src="photos/thumbs_up.PNG" 
-                  width="50" 
-                  height="50"
-                  style="cursor: pointer; border: 1px solid #000;" 
-                  alt="Upvote"
-                />
-                <p style="margin: 2; font-size: 20px; color: #000;">Click to upvote!</p>
-              </div>
-            </div>
-          </div>
-        `;
+//        const detailedPopup = `
+//          <div class="popup-content" data-objectid="${r.objectID || 'unknown'}">
+//            <div style="width: 300px;">
+//              <b>${r.name || 'Unnamed'}</b><br>${r.latitude.toFixed(6)}, ${r.longitude.toFixed(5)}
+//              <p>${r.description || ''}</p>
+//              <p>A user identified this as a shady spot on ${r.timestamp || 'an unknown date'}.</p>
+//              <p>The best time to visit this spot is in the ${r.timeday || 'unknown'}.</p>
+//              <div style="display: inline-flex; align-items: center; gap: 8px;">
+//                <img 
+//                  src="photos/thumbs_up.PNG" 
+//                  width="50" 
+//                  height="50"
+//                  style="cursor: pointer; border: 1px solid #000;" 
+//                  alt="Upvote"
+//                />
+//                <p style="margin: 2; font-size: 20px; color: #000;">Click to upvote!</p>
+//              </div>
+//            </div>
+//          </div>;
 
-        marker.bindPopup(defaultPopup);
+//        marker.bindPopup(defaultPopup);
 
-        marker.on('dblclick', () => {
-          marker.getPopup().setContent(detailedPopup).openOn(map);
+//        marker.on('dblclick', () => {
+//          marker.getPopup().setContent(detailedPopup).openOn(map);
 
-          setTimeout(() => {
-            const popupDiv = document.querySelector('.popup-content');
-            if (!popupDiv) return;
+//          setTimeout(() => {
+//            const popupDiv = document.querySelector('.popup-content');
+//            if (!popupDiv) return;
 
-            const upvoteBtn = popupDiv.querySelector('img');
+//            const upvoteBtn = popupDiv.querySelector('img');
 
-            if (upvoteBtn) {
-              upvoteBtn.addEventListener('click', () => {
-                const objectID = popupDiv.dataset.objectid || 'unknown';
-                const upvote = 1;
+//            if (upvoteBtn) {
+//              upvoteBtn.addEventListener('click', () => {
+//                const objectID = popupDiv.dataset.objectid || 'unknown';
+//                const upvote = 1;
 
-                upvoteBtn.src = "photos/check.PNG";
-                upvoteBtn.style.cursor = "pointer";
-                upvoteBtn.style.border = "1px solid #000";
-                upvoteBtn.title = "Upvoted!";
+//                upvoteBtn.src = "photos/check.PNG";
+//                upvoteBtn.style.cursor = "pointer";
+//                upvoteBtn.style.border = "1px solid #000";
+//                upvoteBtn.title = "Upvoted!";
 
-                sendToForm(objectID, upvote);
-              });
-            }
-          }, 100); // wait for popup DOM to render
-        });
+  //              sendToForm(objectID, upvote);
+  //            });
+  //          }
+  //        }, 100); // wait for popup DOM to render
+  //      });
 
-        marker.on('popupclose', () => marker.getPopup().setContent(defaultPopup));
-      });
-  },
-  error: err => {
-    console.error(err);
-    alert('Failed to load markers.');
-  }
-});
+  //      marker.on('popupclose', () => marker.getPopup().setContent(defaultPopup));
+  //    });
+  //},
+  //error: err => {
+  //  console.error(err);
+  //  alert('Failed to load markers.');
+ // }
+//});
 
 // Moved outside loop
-function sendToForm(objectID, upvote, comment) {
-  const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScX-UiKwpe_MIlSi1wGz5HPwISmZ5AqmfkAWJcLDsxyT5sHOg/formResponse";
-  const formData = new URLSearchParams();
-  formData.append("entry.1719527082", objectID);
-  formData.append("entry.890823714", upvote);
+//function sendToForm(objectID, upvote, comment) {
+  //const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScX-UiKwpe_MIlSi1wGz5HPwISmZ5AqmfkAWJcLDsxyT5sHOg/formResponse";
+  //const formData = new URLSearchParams();
+  //formData.append("entry.1719527082", objectID);
+  //formData.append("entry.890823714", upvote);
 
-  fetch(formUrl, {
-    method: "POST",
-    mode: "no-cors",
-    body: formData
-  }).catch(err => console.error("Error:", err));
-}   
+  //fetch(formUrl, {
+    //method: "POST",
+    //mode: "no-cors",
+    //body: formData
+  //}).catch(err => console.error("Error:", err));
+//}   
